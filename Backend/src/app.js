@@ -3,12 +3,24 @@ const cookieParser = require("cookie-parser")
 const cors = require("cors")
 
 const app = express()
-const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173"
+const frontendUrl = (process.env.FRONTEND_URL || "http://localhost:5173").replace(/\/$/, "")
 
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-    origin: frontendUrl,
+    origin: (origin, callback) => {
+        if (!origin) {
+            return callback(null, true)
+        }
+
+        const normalizedOrigin = origin.replace(/\/$/, "")
+
+        if (normalizedOrigin === frontendUrl) {
+            return callback(null, true)
+        }
+
+        return callback(new Error("Not allowed by CORS"))
+    },
     credentials: true
 }))
 
