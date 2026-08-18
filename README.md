@@ -1,328 +1,213 @@
 # AI-Powered Interview Preparation Platform
 
-## 📋 Project Overview
+## Project Overview
 
-This is a comprehensive full-stack web application designed to help users prepare for technical interviews. The platform leverages artificial intelligence to conduct mock interviews, provide detailed feedback, and generate performance reports. Users can practice various interview scenarios, receive real-time evaluations, and track their progress over time.
+This is a full-stack interview preparation platform that helps users practice and prepare with AI-generated interview insights.
 
-Think of it as a personal interview coach that's available 24/7 - it uses AI to simulate real interview conditions, evaluates your responses, and helps you improve your interview skills through data-driven insights.
+Users can:
+- Upload a resume (PDF)
+- Add self-description and job description
+- Generate an AI interview preparation report
+- Review report history
+- Generate a tailored resume PDF
 
----
-
-## 🎯 Key Features
-
-### For Users:
-- **AI-Powered Mock Interviews**: Conduct realistic mock interviews powered by AI
-- **Real-time Feedback**: Receive instant feedback on your answers, communication, and technical knowledge
-- **Detailed Performance Reports**: Get comprehensive analysis of your interview performance with metrics like:
-  - Communication score
-  - Technical accuracy
-  - Confidence level
-  - Areas for improvement
-- **Progress Tracking**: Monitor your performance over multiple interview sessions
-- **Secure Authentication**: User accounts with secure login/registration
-- **Interview History**: Access past interviews and their detailed reports
-
-### Technical Features:
-- **Responsive Design**: Works seamlessly on desktop and mobile devices
-- **RESTful API**: Clean, well-structured backend API
-- **Database Persistence**: Store user data, interview records, and reports
-- **Token-based Authentication**: JWT for secure session management
-- **File Upload Support**: Upload resumes or interview recordings for analysis
+The application uses a React frontend and a Node/Express backend with MongoDB.
 
 ---
 
-## 🛠️ Tech Stack
+## Key Features
+
+- AI-powered interview report generation
+- Resume PDF parsing and analysis
+- Tailored resume PDF generation
+- User authentication (JWT + cookies)
+- Token blacklist on logout
+- Interview report history and detail view
+- Protected routes and credentialed API requests
+
+---
+
+## Tech Stack
 
 ### Frontend
-- **React 18**: Modern UI library with hooks and context API
-- **Vite**: Lightning-fast build tool and dev server
-- **Tailwind CSS**: Utility-first CSS framework for styling
-- **Context API**: State management for authentication and interview data
-- **React Router**: Client-side routing for navigation
-- **Axios**: HTTP client for API communication
+- React 19
+- Vite
+- React Router
+- Axios
+- Tailwind CSS
 
 ### Backend
-- **Node.js with Express.js**: Lightweight, scalable server framework
-- **MongoDB**: NoSQL database for flexible data storage
-- **JWT (JSON Web Tokens)**: Secure authentication mechanism
-- **Multer**: File upload middleware for handling resume/recording uploads
-- **AI Integration**: Powered by OpenAI or similar AI APIs for interview generation and evaluation
-- **Environment Variables**: Configuration management with dotenv
+- Node.js
+- Express
+- MongoDB + Mongoose
+- JWT
+- Multer (file upload)
+- PDF Parse
+- Google GenAI SDK
+- Puppeteer (PDF generation)
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
-```
+```text
 AI-Powered Interview Preparation Platform/
-├── Frontend/                          # React application
+├── Frontend/
 │   ├── src/
 │   │   ├── features/
-│   │   │   ├── auth/                 # Authentication module
-│   │   │   │   ├── pages/            # Login & Register pages
-│   │   │   │   ├── hooks/            # useAuth custom hook
-│   │   │   │   ├── services/         # Auth API calls
-│   │   │   │   └── components/       # Protected route wrapper
-│   │   │   └── interview/            # Interview module
-│   │   │       ├── pages/            # Home & Interview pages
-│   │   │       ├── hooks/            # useInterview custom hook
-│   │   │       ├── services/         # Interview API calls
-│   │   │       └── styles/           # Interview styling
-│   │   ├── components/               # Shared components
-│   │   ├── App.jsx                   # Main App component
-│   │   └── main.jsx                  # React entry point
+│   │   │   ├── auth/
+│   │   │   └── interview/
+│   │   ├── components/
+│   │   ├── App.jsx
+│   │   └── main.jsx
 │   ├── package.json
 │   └── vite.config.js
-│
-└── Backend/                           # Express server
+└── Backend/
     ├── src/
-    │   ├── config/                   # Database & env config
-    │   ├── controllers/              # Business logic
-    │   │   ├── auth.controller.js    # Auth endpoints
-    │   │   └── interview.controller.js
-    │   ├── models/                   # Database schemas
-    │   │   ├── user.model.js
-    │   │   ├── interviewReport.model.js
-    │   │   └── blacklist.model.js
-    │   ├── routes/                   # API routes
-    │   │   ├── auth.routes.js
-    │   │   └── interview.routes.js
-    │   ├── middlewares/              # Custom middlewares
-    │   │   ├── auth.middleware.js    # JWT verification
-    │   │   └── file.middleware.js    # File upload handling
+    │   ├── config/
+    │   ├── controllers/
+    │   ├── middlewares/
+    │   ├── models/
+    │   ├── routes/
     │   ├── services/
-    │   │   └── ai.service.js         # AI integration
-    │   └── app.js                    # Express app setup
-    ├── server.js                     # Server entry point
+    │   └── app.js
+    ├── server.js
     └── package.json
 ```
 
 ---
 
-## 🚀 Getting Started
+## Local Development Setup
 
 ### Prerequisites
-- Node.js (v14 or higher)
-- npm or yarn
-- MongoDB (local or MongoDB Atlas cloud)
-- OpenAI API key (or alternative AI service)
+- Node.js 18+
+- npm
+- MongoDB Atlas URI (or local MongoDB)
+- Google GenAI API key
 
-### Installation
+### 1. Clone and install
 
-**1. Clone the repository:**
 ```bash
 git clone https://github.com/debugger-rana/AI-Powered-Interview-Preparation.git
 cd AI-Powered-Interview-Preparation
-```
 
-**2. Setup Backend:**
-```bash
 cd Backend
 npm install
 
-# Create .env file in Backend directory
-# Add the following variables:
-# MONGODB_URI=your_mongodb_connection_string
-# JWT_SECRET=your_jwt_secret_key
-# OPENAI_API_KEY=your_openai_api_key
-# PORT=5000
-
-npm start
-```
-
-**3. Setup Frontend:**
-```bash
 cd ../Frontend
 npm install
+```
 
-# Create .env file in Frontend directory (if needed)
-# VITE_API_URL=http://localhost:5000
+### 2. Backend env file
 
+Create `Backend/.env`:
+
+```env
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+GOOGLE_GENAI_API_KEY=your_google_genai_key
+FRONTEND_URL=http://localhost:5173
+```
+
+### 3. Frontend env file
+
+Create `Frontend/.env`:
+
+```env
+VITE_API_URL=http://localhost:3000
+```
+
+### 4. Run locally
+
+Backend:
+
+```bash
+cd Backend
 npm run dev
 ```
 
-**4. Access the application:**
-- Frontend: `http://localhost:5173` (Vite default)
-- Backend API: `http://localhost:5000`
+Frontend:
 
----
-
-## 📡 API Endpoints
-
-### Authentication Routes
-```
-POST   /api/auth/register      - Create new user account
-POST   /api/auth/login         - User login
-POST   /api/auth/logout        - User logout (blacklist token)
-GET    /api/auth/profile       - Get user profile (protected)
+```bash
+cd Frontend
+npm run dev
 ```
 
-### Interview Routes
+Local URLs:
+- Frontend: http://localhost:5173
+- Backend: http://localhost:3000
+
+---
+
+## Deployment (Vercel + Render)
+
+### Frontend (Vercel)
+
+- Root directory: `Frontend`
+- Build command: `npm run build`
+- Output directory: `dist`
+
+Set this environment variable in Vercel:
+
+```env
+VITE_API_URL=https://ai-interview-backend-ls81.onrender.com
 ```
-POST   /api/interview/start    - Start new mock interview
-POST   /api/interview/answer   - Submit answer to interview question
-GET    /api/interview/report   - Get interview report (protected)
-GET    /api/interview/history  - Get user's interview history (protected)
+
+### Backend (Render)
+
+- Root directory: `Backend`
+- Build command: `npm install`
+- Start command: `node server.js`
+
+Set these environment variables in Render:
+
+```env
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+GOOGLE_GENAI_API_KEY=your_google_genai_key
+FRONTEND_URL=https://ai-powered-interview-preparation-one.vercel.app
+NODE_ENV=production
 ```
 
----
-
-## 🔐 Security Features
-
-- **JWT Authentication**: Secure token-based authentication
-- **Token Blacklisting**: Logout functionality with token blacklist
-- **Password Hashing**: Encrypted password storage
-- **Environment Variables**: Sensitive data protection
-- **CORS Configuration**: Controlled cross-origin requests
-- **File Upload Validation**: Type and size validation for uploads
+Important:
+- Keep `FRONTEND_URL` without trailing slash.
+- Keep `VITE_API_URL` without trailing slash.
+- Redeploy both services after changing environment variables.
 
 ---
 
-## 📊 Database Schema Overview
+## API Endpoints
 
-### User Model
-- `_id`: MongoDB ObjectId
-- `name`: User full name
-- `email`: User email (unique)
-- `password`: Hashed password
-- `createdAt`: Account creation timestamp
+### Auth
+- POST `/api/auth/register`
+- POST `/api/auth/login`
+- GET `/api/auth/logout`
+- GET `/api/auth/get-me`
 
-### Interview Report Model
-- `_id`: MongoDB ObjectId
-- `userId`: Reference to User
-- `interviewType`: Type of interview (technical, behavioral, etc.)
-- `questions`: Array of questions asked
-- `answers`: Array of user's answers
-- `scores`: Performance metrics and scores
-- `feedback`: AI-generated feedback
-- `completedAt`: Interview completion timestamp
-
-### Blacklist Model
-- `token`: JWT token to blacklist
-- `expiresAt`: Token expiration time
+### Interview
+- POST `/api/interview/` (multipart form data with resume)
+- GET `/api/interview/`
+- GET `/api/interview/report/:interviewId`
+- POST `/api/interview/resume/pdf/:interviewReportId`
 
 ---
 
-## 🤖 AI Integration
+## Troubleshooting
 
-The platform integrates with AI services to:
-1. **Generate Interview Questions**: Create realistic, contextual questions based on interview type
-2. **Evaluate Answers**: Assess technical accuracy, clarity, and completeness
-3. **Provide Feedback**: Generate constructive, actionable feedback
-4. **Score Performance**: Calculate metrics for communication, technical knowledge, and confidence
+### CORS errors in production
+- Verify `FRONTEND_URL` in Render exactly matches deployed Vercel origin.
+- Confirm backend redeployed after env change.
 
----
+### API still calling localhost in production
+- Verify `VITE_API_URL` exists in Vercel project settings.
+- Redeploy Vercel after env updates.
 
-## 🎓 Workflow Example
-
-1. **User Registration/Login**: Secure authentication with JWT
-2. **Start Interview**: Select interview type, AI generates relevant questions
-3. **Answer Questions**: User provides answers through the interface
-4. **Real-time Evaluation**: AI analyzes each response instantly
-5. **Get Report**: Comprehensive report with scores and recommendations
-6. **Track Progress**: User can review all past interviews and improvements
+### Login works but session not retained
+- Check browser cookie policy for cross-site cookies.
+- Confirm requests are sent with credentials.
 
 ---
 
-## 🔄 State Management
+## License
 
-### Frontend State:
-- **Auth Context**: Manages user authentication state, login/logout, user profile
-- **Interview Context**: Manages current interview session, questions, answers, and reports
-
-### Backend State:
-- **Sessions**: JWT tokens manage user sessions
-- **Database**: MongoDB stores persistent data
-
----
-
-## 🚀 Performance Optimizations
-
-- **Code Splitting**: React components split for faster loading
-- **Lazy Loading**: Routes loaded on-demand with React Router
-- **API Caching**: Minimize redundant API calls
-- **Vite Build**: Optimized production bundle
-- **Database Indexing**: Indexes on frequently queried fields
-
----
-
-## 🎨 UI/UX Highlights
-
-- **Clean, Modern Design**: Tailwind CSS for professional appearance
-- **Responsive Layout**: Mobile-friendly interface
-- **Intuitive Navigation**: Easy-to-use menu structure
-- **Real-time Feedback**: Instant validation and feedback
-- **Progress Visualization**: Charts and metrics for performance tracking
-
----
-
-## 📈 Future Enhancements
-
-- [ ] Multiple AI providers (OpenAI, Gemini, Claude)
-- [ ] Video recording and playback of interviews
-- [ ] Interview scheduling with reminders
-- [ ] Peer comparison and benchmarking
-- [ ] Advanced analytics dashboard
-- [ ] Interview preparation resources library
-- [ ] Mobile native app (React Native)
-- [ ] Social features (study groups, discussion forums)
-- [ ] Integration with LinkedIn profiles
-- [ ] Customizable interview templates
-
----
-
-## 🐛 Troubleshooting
-
-**Backend won't start:**
-- Check MongoDB connection string
-- Verify all environment variables are set
-- Ensure port 5000 is not in use
-
-**Frontend API calls failing:**
-- Verify backend is running on correct port
-- Check CORS configuration
-- Ensure API endpoints match between frontend and backend
-
-**Authentication issues:**
-- Clear browser cookies/localStorage
-- Check JWT secret matches between backend and token
-- Verify token expiration time
-
----
-
-## 👨‍💻 Development Notes
-
-### Why This Architecture?
-- **Separation of Concerns**: Frontend and backend are independent, allowing scalability
-- **Microservices Ready**: Easy to extract features into separate services
-- **Scalable**: Can add caching layers, load balancing, and database replication
-
-### Code Organization Philosophy:
-- **Feature-based Structure**: Code organized by features, not file types
-- **Custom Hooks**: Reusable logic extracted into custom React hooks
-- **Service Layer**: API calls centralized in service modules
-- **Middleware Pattern**: Express middlewares for cross-cutting concerns
-
----
-
-## 📝 License
-
-This project is open-source and available for educational purposes.
-
----
-
-## 🤝 Contributing
-
-Feel free to fork this project and submit pull requests for improvements!
-
----
-
-## 📧 Contact & Support
-
-For questions, issues, or suggestions, please reach out to the development team.
-
----
-
-**Happy Interviewing! 🎯**
-
-This platform is your personal interview coach. Use it to prepare, practice, and perfect your interview skills!
+For educational and portfolio use.
